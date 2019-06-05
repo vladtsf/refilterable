@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>re-filter demo</title>
+</head>
+<body>
+  <div id="app"></div>
+  <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+  <script src="https://unpkg.com/react@16/umd/react.development.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js" crossorigin></script>
+  <script src="https://unpkg.com/history" crossorigin></script>
+  <!-- <script src="https://unpkg.com/query-string@5.1.1"></script> -->
+  <script src="/dist/re-filter.umd.js"></script>
+  <script type="text/babel">
+    const appEl = document.getElementById('app');
+    const hist = History.createBrowserHistory();
+    const { FiltersProvider, createFilter, useFilter } = reFilter;
+
+    const pageFilter = createFilter('page', { 
+      parse: (input) => parseInt(input), 
+      format: (page) => String(page), 
+      validate: (input, parse) => parse(input) >= 0,
+      defaultValue: 0 
+    });
+
+    const lastClickFilter = createFilter('last-click', { 
+      parse: (input) => new Date(Number(input)), 
+      format: (date) => Number(date), 
+      defaultValue: Date.now(),
+    });
+
+    function PageButton({ pageNumber }) {
+      const [page, setPage] = useFilter(pageFilter);
+      const [lastClick, setLastClick] = useFilter(lastClickFilter);
+
+      // const reset = useReset(); // resets every registered filter to defaultValue or undefined
+
+
+      return (
+        <button onClick={() => (setPage(pageNumber) && setLastClick(Date.now()))}>
+          {pageNumber}
+        </button>
+      )
+    }
+
+    function Pagination() {
+      const [page] = useFilter(pageFilter);
+      const [lastClick] = useFilter(lastClickFilter);
+      
+      return (
+        <div>
+          Current Page: {page}
+          <br />
+          Last Click: {lastClick.toString()}
+          <br />
+          <PageButton pageNumber={1} />
+          <PageButton pageNumber={2} />
+          <PageButton pageNumber={3} />
+          <PageButton pageNumber={4} />
+        </div>
+      );
+    }
+
+    function App() {
+      return (
+        <FiltersProvider history={hist}>
+          <Pagination />
+        </FiltersProvider>
+      );
+    }
+
+    ReactDOM.render(<App />, appEl);
+  
+  
+  </script>
+</body>
+</html>
