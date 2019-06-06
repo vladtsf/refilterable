@@ -63,8 +63,17 @@ export default function useFilter<T>(filterArg: FilterObject<T> | string): [T | 
 
   const setFilter = useCallback((nextValue: T, options: SetFilterOptions = defaultSetFilterOptions): string => {
     const params = locationObserver.getCurrentParams();
+
+    const formattedValue = format(nextValue);
+
+    invariant(
+      typeof formattedValue === 'string',
+      `re-filter: a custom formatter (${paramName}) produced a non-string value. 
+       Make sure your formatter always returns a string`,
+    );
+
     // apply the new value
-    params.set(paramName, format(nextValue));
+    params.set(paramName, formattedValue);
     
     return applyHistoryAction(history, params, options);
   }, []);
