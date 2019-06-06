@@ -36,7 +36,8 @@
   "scripts": {
     "build": "rollup -c",
     "watch": "rollup -c -w",
-    "test": "jest"
+    "test": "jest",
+    "coverage": "jest --coverage"
   },
   "": [
     "dist"

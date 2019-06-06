@@ -266,4 +266,14 @@ describe('useFilter', () => {
     });
   });
 
+  it('should specify a proper hook debug value', () => {
+    const useDebugValue = jest.spyOn(React, 'useDebugValue');
+    history.push({ search: 'foo=bar' });
+    renderHook(() => useFilter<string>('foo'), { wrapper });
+    
+    const debugCallback = useDebugValue.mock.calls[0][1];
+    expect(useDebugValue).toHaveBeenCalledWith('foo', expect.any(Function));
+    // @ts-ignore
+    expect(debugCallback()).toBe('foo: bar');
+  })
 });
