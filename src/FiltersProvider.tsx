@@ -31,8 +31,8 @@ const FiltersProvider: FunctionComponent<Props> = ({ history, children }: Props)
   }, []);
 
   const contextValue: FiltersContextValue = { 
-    locationObserver,
     history, 
+    locationObserver: locationObserver.current,
     filterRegistry: filterRegistry.current 
   };
 

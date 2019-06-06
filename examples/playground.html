@@ -15,12 +15,11 @@
   <script src="https://unpkg.com/react@16/umd/react.development.js" crossorigin></script>
   <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js" crossorigin></script>
   <script src="https://unpkg.com/history" crossorigin></script>
-  <!-- <script src="https://unpkg.com/query-string@5.1.1"></script> -->
   <script src="/dist/re-filter.umd.js"></script>
   <script type="text/babel">
     const appEl = document.getElementById('app');
     const hist = History.createBrowserHistory();
-    const { FiltersProvider, createFilter, useFilter } = reFilter;
+    const { FiltersProvider, createFilter, useFilter, useReset } = reFilter;
 
     const pageFilter = createFilter('page', { 
       parse: (input) => parseInt(input), 
@@ -58,9 +57,6 @@
     function PageButton({ pageNumber }) {
       const [page, setPage] = useFilter(pageFilter);
 
-      // const reset = useReset(); // resets every registered filter to defaultValue or undefined
-
-
       return (
         <button onClick={() => setPage(pageNumber)}>
           {pageNumber}
@@ -85,12 +81,25 @@
       );
     }
 
+    function ResetButton() {
+      const reset = useReset();
+
+
+      return (
+        <div>
+          <RenderCounter />
+          <button type="reset" onClick={() => reset()}>Reset filters</button>
+        </div>
+      );
+    }
+
     function App() {
       return (
         <FiltersProvider history={hist}>
           <RenderCounter />
           <Pagination />
           <LastClickTimeButton />
+          <ResetButton />
         </FiltersProvider>
       );
     }

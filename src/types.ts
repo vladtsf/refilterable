@@ -27,11 +27,11 @@ export function isFilterObject<T>(filter: any): filter is FilterObject<T> {
 }
 
 export type FiltersContextValue = {
-  locationObserver: MutableRefObject<{ 
+  locationObserver: { 
     watch(paramName: string, callback: Function): Function;
     getParamInfo(paramName: string): { hasParam: boolean, paramValue: any };
     getCurrentParams(): URLSearchParams;
-  }>;
+  };
   history?: History;
   filterRegistry: Map<string, FilterObject<any>>,
 }
@@ -44,3 +44,4 @@ export type SetFilterOptions = {
 };
 
 export type FilterSetter<T = string> = (nextValue: T, options?: SetFilterOptions) => string;
+export type FilterResetter = (options?: SetFilterOptions) => string;

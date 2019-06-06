@@ -3,12 +3,8 @@ import invariant from 'invariant';
 import { FilterObject, FilterSetter, SetFilterOptions, ForwardHistoryAction, isFilterObject, FiltersContextValue } from './types';
 import createFilter from './createFilter';
 import filtersContext from './filtersContext';
-
-const defaultSetFilterOptions: SetFilterOptions = Object.freeze({
-  dry: false,
-  action: 'PUSH' as ForwardHistoryAction,
-});
-
+import applyHistoryAction from './applyHistoryAction';
+import { defaultSetFilterOptions } from './constants';
 
 /**
  * Returns the current filter value, and a function to update it
@@ -51,12 +47,12 @@ export default function useFilter<T>(filterArg: FilterObject<T> | string): [T | 
   }, [paramName]);
 
 
-  const [hasParam, setHasParam] = useState(locationObserver.current.getParamInfo(paramName).hasParam);
-  const [paramValue, setParamValue] = useState(locationObserver.current.getParamInfo(paramName).paramValue);
+  const [hasParam, setHasParam] = useState(locationObserver.getParamInfo(paramName).hasParam);
+  const [paramValue, setParamValue] = useState(locationObserver.getParamInfo(paramName).paramValue);
 
   // react to changes in location and re-compute hasParam and paramValue variables
   useEffect(() => (
-    locationObserver.current.watch(paramName, ({ hasParam, paramValue }: {
+    locationObserver.watch(paramName, ({ hasParam, paramValue }: {
       hasParam: boolean; 
       paramValue: T,
     }) => {
@@ -66,23 +62,11 @@ export default function useFilter<T>(filterArg: FilterObject<T> | string): [T | 
   ), [paramName]);
 
   const setFilter = useCallback((nextValue: T, options: SetFilterOptions = defaultSetFilterOptions): string => {
-    const params = locationObserver.current.getCurrentParams();
+    const params = locationObserver.getCurrentParams();
     // apply the new value
     params.set(paramName, format(nextValue));
-    // convert query to query string
-    const queryString = params.toString();
-    // dry run -> just return the next string (used in <Link> or <a>)
-    if (options.dry) return queryString;
-
-    switch (options.action) {
-      case 'PUSH':
-        history.push({ search: queryString });
-        break;
-      case 'REPLACE':
-        history.replace({ search: queryString });
-    }
-
-    return queryString;
+    
+    return applyHistoryAction(history, params, options);
   }, []);
 
   const filterValue = useMemo(() => {
