@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, FunctionComponent } from 'react';
+import invariant from 'invariant';
 import { History, Location } from 'history';
 import filtersContext from './filtersContext';
 import { FiltersContextValue, FilterObject } from './types';
@@ -10,6 +11,12 @@ type Props = {
 }
 
 const FiltersProvider: FunctionComponent<Props> = ({ history, children }: Props) => {
+  invariant(
+    history,
+    `re-filter: FiltersProvider was not passed a history instance. 
+     Make sure you pass it via the history prop`,
+  );
+
   const filterRegistry = useRef<Map<string, FilterObject<any>>>(new Map());
   const locationObserver = useRef(createLocationObserver(history.location.search));
 
