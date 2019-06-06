@@ -1,9 +1,9 @@
 import { useContext, useCallback } from 'react';
 import invariant from 'invariant';
-import { FilterResetter, SetFilterOptions } from './types';
-import { defaultSetFilterOptions } from './constants';
-import filtersContext from './filtersContext';
-import applyHistoryAction from './applyHistoryAction';
+import { FilterResetter, SetFilterOptions } from './utils/types';
+import { defaultSetFilterOptions } from './utils/constants';
+import filtersContext from './utils/filtersContext';
+import applyHistoryAction from './utils/applyHistoryAction';
 
 /**
  * Returns a function to reset all the registered filters to their default values.

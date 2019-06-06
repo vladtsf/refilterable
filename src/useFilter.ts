@@ -1,10 +1,10 @@
 import { useMemo, useContext, useCallback, useEffect, useDebugValue, useState } from 'react';
 import invariant from 'invariant';
-import { FilterObject, FilterSetter, SetFilterOptions, ForwardHistoryAction, isFilterObject, FiltersContextValue } from './types';
+import { FilterObject, FilterSetter, SetFilterOptions, ForwardHistoryAction, isFilterObject, FiltersContextValue } from './utils/types';
 import createFilter from './createFilter';
-import filtersContext from './filtersContext';
-import applyHistoryAction from './applyHistoryAction';
-import { defaultSetFilterOptions } from './constants';
+import filtersContext from './utils/filtersContext';
+import applyHistoryAction from './utils/applyHistoryAction';
+import { defaultSetFilterOptions } from './utils/constants';
 
 /**
  * Returns the current filter value, and a function to update it

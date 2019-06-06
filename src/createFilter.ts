@@ -1,4 +1,4 @@
-import { FilterConfig, FilterObject, CREATE_FILTER_MARKER } from './types';
+import { FilterConfig, FilterObject, CREATE_FILTER_MARKER } from './utils/types';
 
 
 export default function createFilter<T>(paramName: string, config?: FilterConfig<T>): FilterObject<T> {

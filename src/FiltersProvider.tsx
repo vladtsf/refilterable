@@ -1,9 +1,9 @@
 import React, { useEffect, useRef, FunctionComponent } from 'react';
 import invariant from 'invariant';
 import { History, Location } from 'history';
-import filtersContext from './filtersContext';
-import { FiltersContextValue, FilterObject } from './types';
-import createLocationObserver from './createLocationObserver';
+import filtersContext from './utils/filtersContext';
+import { FiltersContextValue, FilterObject } from './utils/types';
+import createLocationObserver from './utils/createLocationObserver';
  
 type Props = {
   history: History;

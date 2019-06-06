@@ -1,7 +1,6 @@
 import { History } from 'history';
-import { MutableRefObject } from 'react';
 
-export const CREATE_FILTER_MARKER = Symbol("createFilter");
+export const CREATE_FILTER_MARKER = Symbol('createFilter');
 
 export interface FilterConfig<T = string> {
 	parse?(input: string): T; 
