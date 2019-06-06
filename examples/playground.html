@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>re-filter demo</title>
   <style>
-    div { border: 1px solid black; padding: 5px; }
+    div { border: 1px solid black; padding: 5px; margin: 10px }
   </style>
 </head>
 <body>
@@ -77,6 +77,7 @@
           <PageButton pageNumber={2} />
           <PageButton pageNumber={3} />
           <PageButton pageNumber={4} />
+          <LastClickTimeButton />
         </div>
       );
     }
@@ -93,12 +94,27 @@
       );
     }
 
+    function RandomNumber() {
+      const [number, setNumber] = useFilter('random.number');
+
+      return (
+        <div>
+          <RenderCounter />
+          <br />
+          Current random number: {number}
+          <br />
+          <button onClick={() => setNumber(Math.random())}>Randomize</button>
+        </div>
+      )
+    }
+
     function App() {
       return (
         <FiltersProvider history={hist}>
           <RenderCounter />
           <Pagination />
           <LastClickTimeButton />
+          <RandomNumber />
           <ResetButton />
         </FiltersProvider>
       );
