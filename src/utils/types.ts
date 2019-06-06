@@ -1,6 +1,6 @@
 import { History } from 'history';
+import { CREATE_FILTER_MARKER } from './constants';
 
-export const CREATE_FILTER_MARKER = Symbol('createFilter');
 
 export interface FilterConfig<T = string> {
 	parse?(input: string): T; 
@@ -22,7 +22,7 @@ export interface FilterObject<T = string> extends FilterConfig<T> {
  * @param filter 
  */
 export function isFilterObject<T>(filter: any): filter is FilterObject<T> {
-  return filter[CREATE_FILTER_MARKER];
+  return Boolean(filter[CREATE_FILTER_MARKER]);
 }
 
 export type FiltersContextValue = {

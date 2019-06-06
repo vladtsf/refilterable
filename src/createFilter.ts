@@ -1,7 +1,14 @@
-import { FilterConfig, FilterObject, CREATE_FILTER_MARKER } from './utils/types';
+import invariant from 'invariant';
+import { FilterConfig, FilterObject } from './utils/types';
+import { CREATE_FILTER_MARKER } from './utils/constants';
 
 
 export default function createFilter<T>(paramName: string, config?: FilterConfig<T>): FilterObject<T> {
+  invariant(
+    String(paramName || '').length > 0,
+    `re-filter: param name cannot be empty`,
+  );
+
   const defaultConfig = {
     parse(input: string): any { return input; }, 
     format(value: T): string { return String(value); },
@@ -15,4 +22,4 @@ export default function createFilter<T>(paramName: string, config?: FilterConfig
     ...config,
     paramName,
   };
-};
+}; 

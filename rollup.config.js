@@ -1,7 +1,7 @@
 import replace from 'rollup-plugin-replace';
 import resolve from 'rollup-plugin-node-resolve';
 import commonjs from 'rollup-plugin-commonjs';
-import typescript from 'rollup-plugin-typescript';
+import typescript from 'rollup-plugin-typescript2';
 import pkg from './package.json';
 
 const commonjsConfig = {
@@ -24,14 +24,13 @@ const commonjsConfig = {
 export default [
 	// browser-friendly UMD build
 	{
-		input: 'src/main.ts',
-		external: ['react', 'query-string', 'history'],
+		input: 'src/index.ts',
+		external: ['react', 'history'],
 		output: {
 			globals: {
 				react: 'React',
 				'react-dom': 'ReactDOM',
 				'history': 'History',
-				'query-string': 'queryString',
 				'url-search-params': 'URLSearchParams',
 			},
 			name: 'reFilter',
@@ -55,8 +54,11 @@ export default [
 	// an array for the `output` option, where we can specify 
 	// `file` and `format` for each target)
 	{
-		input: 'src/main.ts',
-		external: ['react', 'query-string', 'history', 'invariant'],
+		input: 'src/index.ts',
+		external: [
+			...Object.keys(pkg.dependencies || {}),
+			...Object.keys(pkg.peerDependencies || {}),
+		],
 		plugins: [
 			replace({
 				'process.env.NODE_ENV': JSON.stringify('production'),
