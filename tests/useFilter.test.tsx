@@ -2,7 +2,7 @@ import React from 'react';
 import { History } from 'history';
 import { renderHook, act } from 'react-hooks-testing-library'
 import { useFilter, FiltersProvider, createFilter } from '../src';
-import { createMemoryHistory, createBrowserHistory } from 'history';
+import { createMemoryHistory } from 'history';
 
 describe('useFilter', () => {
   let wrapper, history: History;
@@ -147,7 +147,7 @@ describe('useFilter', () => {
         expect(nextSearch).toBe('foo=bar');
       });
 
-      it('should not change the url if the "dry" options is set to true', () => {
+      it('should not change the url if the "dry" option is set to true', () => {
         history.push({ search: 'foo=bar' });
         const { result } = renderHook(() => useFilter('foo'), { wrapper });
         let nextSearch;
@@ -275,5 +275,5 @@ describe('useFilter', () => {
     expect(useDebugValue).toHaveBeenCalledWith('foo', expect.any(Function));
     // @ts-ignore
     expect(debugCallback()).toBe('foo: bar');
-  })
+  });
 });

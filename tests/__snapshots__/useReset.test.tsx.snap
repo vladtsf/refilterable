@@ -1,0 +1,3 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`useReset should throw an error when there is no provider in the tree 1`] = `"re-filter: Components that utilize the \\"useFilter\\" hook need to be wrapped with FiltersProvider."`;
