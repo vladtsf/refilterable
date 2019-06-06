@@ -1,19 +1,22 @@
 import { History } from 'history';
 import { CREATE_FILTER_MARKER } from './constants';
 
+export type ParseFunction<T> = (input: string | undefined) => T | undefined;
+
+
 
 export interface FilterConfig<T = string> {
-	parse?(input: string): T; 
+	parse?: ParseFunction<T>;
   format?(value: T): string; 
-  validate?(input: string, parse: (input: string) => T): boolean;
-  defaultValue?: T | undefined;
+  validate?(input: string, parse: ParseFunction<T>): boolean;
+  defaultValue?: string | undefined;
 }
 
 export interface FilterObject<T = string> extends FilterConfig<T> {
   paramName: string;
-  parse(input: string): T; 
+	parse: ParseFunction<T>;
   format(value: T): string; 
-  validate(input: string, parse: (input: string) => T): boolean;
+  validate(input: string, parse: ParseFunction<T>): boolean;
 }
 
 /**

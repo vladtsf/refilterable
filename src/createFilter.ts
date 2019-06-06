@@ -10,7 +10,7 @@ export default function createFilter<T>(paramName: string, config?: FilterConfig
   );
 
   const defaultConfig = {
-    parse(input: string): any { return input; }, 
+    parse(input: string | undefined): any { return input; }, 
     format(value: T): string { return String(value); },
     validate(): boolean { return true; },
     defaultValue: undefined,

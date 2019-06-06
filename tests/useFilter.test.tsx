@@ -78,13 +78,20 @@ describe('useFilter', () => {
       });
 
       it('should call the parse method in order to calculate the current value', () => {
-        history.push({ search: '?foo=bar' })
+        history.push({ search: '?foo=bar' });
         renderHook(() => useFilter(filter), { wrapper }).result.current;
         expect(parse).toHaveBeenCalledWith('bar');
       });
   
-      it('should not call the parse method when the filter is not specified', () => {
-        history.push({ search: '?' })
+      it('should call the parse method with the default value when the filter is not specified', () => {
+        history.push({ search: '?' });
+        const filter = createFilter('foo', { parse, defaultValue: 'bar' });
+        renderHook(() => useFilter(filter), { wrapper }).result.current;
+        expect(parse).toHaveBeenCalledWith(filter.defaultValue);
+      });
+
+      it('should not call the parse method when the filter as well as its default value are not specified', () => {
+        history.push({ search: '?' });
         renderHook(() => useFilter(filter), { wrapper }).result.current;
         expect(parse).not.toHaveBeenCalled();
       });

@@ -80,7 +80,7 @@ export default function useFilter<T>(filterArg: FilterObject<T> | string): [T | 
 
   const filterValue = useMemo(() => {
     // if param isn't present, immediately return the default value
-    if (!hasParam) return defaultValue;
+    if (!hasParam) return typeof defaultValue === 'undefined' ? undefined : parse(defaultValue);
     // if param is invalid return invalid
     if (!validate(paramValue as string, parse)) return undefined;
     
