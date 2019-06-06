@@ -5,6 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>re-filter demo</title>
+  <style>
+    div { border: 1px solid black; padding: 5px; }
+  </style>
 </head>
 <body>
   <div id="app"></div>
@@ -32,15 +35,34 @@
       defaultValue: Date.now(),
     });
 
+    function RenderCounter() {
+      const count = React.useRef(1);
+
+      return `Rendered ${count.current++} times`;
+    }
+
+    function LastClickTimeButton() {
+      const [lastClick, setLastClick] = useFilter(lastClickFilter);
+
+      return (
+        <div>
+          <RenderCounter />
+          <br />
+          Last Click: {lastClick.toString()}
+          <br />
+          <button onClick={() => setLastClick(Date.now())}>Update</button>
+        </div>
+      );
+    }
+
     function PageButton({ pageNumber }) {
       const [page, setPage] = useFilter(pageFilter);
-      const [lastClick, setLastClick] = useFilter(lastClickFilter);
 
       // const reset = useReset(); // resets every registered filter to defaultValue or undefined
 
 
       return (
-        <button onClick={() => (setPage(pageNumber) && setLastClick(Date.now()))}>
+        <button onClick={() => setPage(pageNumber)}>
           {pageNumber}
         </button>
       )
@@ -48,13 +70,12 @@
 
     function Pagination() {
       const [page] = useFilter(pageFilter);
-      const [lastClick] = useFilter(lastClickFilter);
       
       return (
         <div>
-          Current Page: {page}
+          <RenderCounter />
           <br />
-          Last Click: {lastClick.toString()}
+          Current Page: {page}
           <br />
           <PageButton pageNumber={1} />
           <PageButton pageNumber={2} />
@@ -67,7 +88,9 @@
     function App() {
       return (
         <FiltersProvider history={hist}>
+          <RenderCounter />
           <Pagination />
+          <LastClickTimeButton />
         </FiltersProvider>
       );
     }

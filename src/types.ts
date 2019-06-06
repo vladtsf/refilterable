@@ -1,4 +1,5 @@
 import { History } from 'history';
+import { MutableRefObject } from 'react';
 
 export const CREATE_FILTER_MARKER = Symbol("createFilter");
 
@@ -23,13 +24,14 @@ export interface FilterObject<T = string> extends FilterConfig<T> {
  */
 export function isFilterObject<T>(filter: any): filter is FilterObject<T> {
   return filter[CREATE_FILTER_MARKER];
-  // if (typeof filter.paramName !== 'string') return false;
-  // return ['parse', 'format', 'validate']
-  //   .some(methodName => typeof filter[methodName] !== 'function');
 }
 
 export type FiltersContextValue = {
-  params: URLSearchParams;
+  locationObserver: MutableRefObject<{ 
+    watch(paramName: string, callback: Function): Function;
+    getParamInfo(paramName: string): { hasParam: boolean, paramValue: any };
+    getCurrentParams(): URLSearchParams;
+  }>;
   history?: History;
   filterRegistry: Map<string, FilterObject<any>>,
 }

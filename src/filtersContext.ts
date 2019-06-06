@@ -1,8 +1,5 @@
 import { createContext } from "react";
 import { FiltersContextValue } from './types';
+import createLocationObserver from "./createLocationObserver";
 
-export default createContext<FiltersContextValue>({
-  params: new URLSearchParams(),
-  history: undefined,
-  filterRegistry: new Map(),
-});
+export default createContext<FiltersContextValue | null>(null);

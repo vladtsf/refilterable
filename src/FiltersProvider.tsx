@@ -1,7 +1,8 @@
-import React, { useEffect, useState, useCallback, useRef, FunctionComponent } from 'react';
-import { History, Location, Action } from 'history';
+import React, { useEffect, useRef, FunctionComponent } from 'react';
+import { History, Location } from 'history';
 import filtersContext from './filtersContext';
 import { FiltersContextValue, FilterObject } from './types';
+import createLocationObserver from './createLocationObserver';
  
 type Props = {
   history: History;
@@ -9,15 +10,13 @@ type Props = {
 }
 
 const FiltersProvider: FunctionComponent<Props> = ({ history, children }: Props) => {
-  const initialParams = new URLSearchParams(history.location.search);
-  const [params, setParams] = useState<URLSearchParams>(initialParams);
   const filterRegistry = useRef<Map<string, FilterObject<any>>>(new Map());
+  const locationObserver = useRef(createLocationObserver(history.location.search));
 
   useEffect(() => {
     // listen to location changes
-    const unlisten = history.listen((location: Location, action: Action) => {
-      const nextParams = new URLSearchParams(location.search);
-      setParams(nextParams);
+    const unlisten = history.listen((location: Location) => {
+      locationObserver.current.notify(location.search);
     });
 
     // unsubscribe when the component unmounts
@@ -25,7 +24,7 @@ const FiltersProvider: FunctionComponent<Props> = ({ history, children }: Props)
   }, []);
 
   const contextValue: FiltersContextValue = { 
-    params, 
+    locationObserver,
     history, 
     filterRegistry: filterRegistry.current 
   };
