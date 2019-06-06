@@ -1,4 +1,4 @@
-import { createFilter } from '..';
+import { createFilter } from '..'; // import { createFilter } from 're-filter';
 
 export const pageFilter = createFilter('page', { 
   parse: (input) => parseInt(input), 
