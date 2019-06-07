@@ -7,10 +7,6 @@ import applyHistoryAction from './utils/applyHistoryAction';
 import computeFilterValue from './utils/computeFilterValue';
 import { defaultSetFilterOptions } from './utils/constants';
 
-function useFilterComposition(composition: FilterComposition): [any, FilterSetter<object>] {
-  return [{}, (nextValue, options = {}) => 'foo'];
-} 
-
 /**
  * Returns the current filter value, and a function to update it
  * 

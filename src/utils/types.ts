@@ -20,18 +20,18 @@ export interface FilterObject<T = undefined> {
 }
 
 export interface FilterComposition {
-  filters: FilterObject[],
+  filters: FilterObject<any>[],
   validate(input: { [paramName: string]: any }): boolean;
 }
 
-export type FilterDefinition<T = undefined> = FilterObject<T> | FilterComposition;
+export type FilterDefinition<T = any> = FilterObject<T> | FilterComposition;
 
 /**
  * User defined type guard to check if the passed object is a valid instance of FiterObject
  * 
  * @param filter 
  */
-export function isFilterObject<T = undefined>(filter: FilterDefinition<T>): filter is FilterObject<T> {
+export function isFilterObject<T = any>(filter: FilterDefinition<T>): filter is FilterObject<T> {
   return Boolean(filter[FILTER_OBJECT_MARKER]);
 }
 
