@@ -1,7 +1,7 @@
 import { History } from 'history';
 import { CREATE_FILTER_MARKER } from './constants';
 
-export type ParseFunction<T> = (input: string | undefined) => T | undefined;
+export type ParseFunction<T> = (input: string) => T | undefined;
 
 
 
