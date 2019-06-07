@@ -1,4 +1,4 @@
-import { useMemo, useContext, useCallback, useEffect, useDebugValue, useState, useRef } from 'react';
+import { useContext, useCallback, useEffect, useDebugValue, useState } from 'react';
 import invariant from 'invariant';
 import { FilterObject, FilterComposition, FilterSetter, SetFilterOptions, ForwardHistoryAction, isFilterObject, FiltersContextValue, isFilterComposition, FilterDefinition, FilterRegistry, LocationObserver } from './utils/types';
 import createFilter from './createFilter';
@@ -12,7 +12,12 @@ import { defaultSetFilterOptions } from './utils/constants';
  * 
  * @param filter can be either a string that'll server as the name of the url parameter or the filter configuration created with createFilter()
  */
-export default function useFilter<T = undefined>(filter: FilterDefinition<T> | string) : [T | undefined, Function] {
+export default function useFilter<T = undefined>(
+  filter: FilterDefinition<T> | string
+) : [
+  T | { [paramName: string]: any } | undefined, 
+  FilterSetter<T>
+] {
   // bail out if filter is empty
   invariant(
     filter,
@@ -93,7 +98,10 @@ export default function useFilter<T = undefined>(filter: FilterDefinition<T> | s
   }, {});
 
   // 4) provide a setter that changes all the filters at once
-  const filterSetter = useCallback((nextValue: any | { [paramName: string]: any }, options: SetFilterOptions = defaultSetFilterOptions) => {
+  const filterSetter = useCallback((
+    nextValue: any | { [paramName: string]: any }, 
+    options: SetFilterOptions = defaultSetFilterOptions
+  ): string => {
     const params = locationObserver.getCurrentParams();
 
     function computeNextParams(): URLSearchParams {
@@ -138,7 +146,7 @@ export default function useFilter<T = undefined>(filter: FilterDefinition<T> | s
   }, paramNames);
 
   // display the debug value in React inspector
-  useDebugValue('useFilter', () => paramNames.join(','));
+  useDebugValue('useFilter', () => paramNames.join(', '));
 
   return [
     (

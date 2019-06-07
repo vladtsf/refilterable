@@ -72,5 +72,5 @@ export type SetFilterOptions = {
   incrementally?: boolean,
 };
 
-export type FilterSetter<T = string> = (nextValue: T, options?: SetFilterOptions) => string;
+export type FilterSetter<T = undefined> = (nextValue: T | any | { [paramName: string]: any }, options: SetFilterOptions) => string;
 export type FilterResetter = (options?: SetFilterOptions) => string;
