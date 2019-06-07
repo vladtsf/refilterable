@@ -46,7 +46,7 @@ describe('useReset', () => {
       // @ts-ignore
       setBar('bar');
 
-      expect(history.location.search).toBe('?foo=foo&bar=bar');
+      expect(history.location.search).toBe('?bar=bar&foo=foo');
 
       // @ts-ignore
       reset();

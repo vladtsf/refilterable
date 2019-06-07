@@ -128,7 +128,7 @@ export default function useFilter<T = undefined>(filter: FilterDefinition<T> | s
           invariant(
             typeof formattedValue === 'string',
             `re-filter: a custom formatter (${paramName}) produced a non-string value. 
-             Make sure your formatter always returns a string`,
+            Make sure your formatter always returns a string`,
           );
           // apply the new value
           params.set(paramName, formattedValue);
