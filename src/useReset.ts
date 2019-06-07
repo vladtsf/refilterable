@@ -1,6 +1,6 @@
 import { useContext, useCallback } from 'react';
 import invariant from 'invariant';
-import { FilterResetter, SetFilterOptions } from './utils/types';
+import { FilterResetter, SetFilterOptions, FilterObject } from './utils/types';
 import { defaultSetFilterOptions } from './utils/constants';
 import filtersContext from './utils/filtersContext';
 import applyHistoryAction from './utils/applyHistoryAction';
@@ -26,7 +26,8 @@ export default function useReset(): FilterResetter {
     const params = locationObserver.getCurrentParams();
     
     filterRegistry
-      .forEach(({ paramName, defaultValue }: { paramName: string, defaultValue: any }) => {
+      .getAllFilters()
+      .forEach(({ paramName, defaultValue }: FilterObject<any>) => {
         if (typeof defaultValue === "undefined") {
           params.delete(paramName);
         } else {

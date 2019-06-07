@@ -2,7 +2,8 @@ import React, { useEffect, useRef, FunctionComponent } from 'react';
 import invariant from 'invariant';
 import { History, Location } from 'history';
 import filtersContext from './utils/filtersContext';
-import { FiltersContextValue, FilterObject } from './utils/types';
+import { FiltersContextValue, FilterObject, FilterRegistry, LocationObserver } from './utils/types';
+import createFilterRegistry from './utils/createFilterRegistry';
 import createLocationObserver from './utils/createLocationObserver';
  
 type Props = {
@@ -17,8 +18,8 @@ const FiltersProvider: FunctionComponent<Props> = ({ history, children }: Props)
      Make sure you pass it via the history prop`,
   );
 
-  const filterRegistry = useRef<Map<string, FilterObject<any>>>(new Map());
-  const locationObserver = useRef(createLocationObserver(history.location.search));
+  const filterRegistry = useRef<FilterRegistry>(createFilterRegistry());
+  const locationObserver = useRef<LocationObserver>(createLocationObserver(history.location.search));
 
   useEffect(() => {
     // listen to location changes

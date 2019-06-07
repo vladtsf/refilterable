@@ -1,9 +1,8 @@
+import { FilterComposition, FilterObject } from './types';
 import { History } from 'history';
-import { CREATE_FILTER_MARKER } from './constants';
+import { FILTER_OBJECT_MARKER, FILTER_COMPOSITION_MARKER } from './constants';
 
 export type ParseFunction<T> = (input: string) => T | undefined;
-
-
 
 export interface FilterConfig<T = string> {
 	parse?: ParseFunction<T>;
@@ -12,11 +11,28 @@ export interface FilterConfig<T = string> {
   defaultValue?: string | undefined;
 }
 
-export interface FilterObject<T = string> extends FilterConfig<T> {
+export interface FilterObject<T = undefined> {
   paramName: string;
 	parse: ParseFunction<T>;
   format(value: T): string; 
   validate(input: string, parse: ParseFunction<T>): boolean;
+  defaultValue?: string | undefined;
+}
+
+export interface FilterComposition {
+  filters: FilterObject[],
+  validate(input: { [paramName: string]: any }): boolean;
+}
+
+export type FilterDefinition<T = undefined> = FilterObject<T> | FilterComposition;
+
+/**
+ * User defined type guard to check if the passed object is a valid instance of FiterObject
+ * 
+ * @param filter 
+ */
+export function isFilterObject<T = undefined>(filter: FilterDefinition<T>): filter is FilterObject<T> {
+  return Boolean(filter[FILTER_OBJECT_MARKER]);
 }
 
 /**
@@ -24,18 +40,28 @@ export interface FilterObject<T = string> extends FilterConfig<T> {
  * 
  * @param filter 
  */
-export function isFilterObject<T>(filter: any): filter is FilterObject<T> {
-  return Boolean(filter[CREATE_FILTER_MARKER]);
+export function isFilterComposition<T = undefined>(filter: FilterDefinition<T>): filter is FilterComposition {
+  return Boolean(filter[FILTER_COMPOSITION_MARKER]);
+}
+
+export interface LocationObserver {
+  watch(paramName: string, callback: Function): Function;
+  notify(queryString: string);
+  getParamInfo(paramName: string): { hasParam: boolean, paramValue: any };
+  getCurrentParams(): URLSearchParams;
+}
+
+export interface FilterRegistry {
+  getAllFilters(): FilterObject<any>[];
+  isColliding(filter: FilterObject<any>): boolean;
+  addFilter(filter: FilterObject<any>): void;
+  removeFilter(filter: FilterObject<any>): void;
 }
 
 export type FiltersContextValue = {
-  locationObserver: { 
-    watch(paramName: string, callback: Function): Function;
-    getParamInfo(paramName: string): { hasParam: boolean, paramValue: any };
-    getCurrentParams(): URLSearchParams;
-  };
-  history?: History;
-  filterRegistry: Map<string, FilterObject<any>>,
+  locationObserver: LocationObserver;
+  filterRegistry: FilterRegistry;
+  history: History;
 }
 
 export type ForwardHistoryAction = 'PUSH' | 'REPLACE';
@@ -43,6 +69,7 @@ export type ForwardHistoryAction = 'PUSH' | 'REPLACE';
 export type SetFilterOptions = {
   dry?: boolean;
   action?: ForwardHistoryAction;
+  incrementally?: boolean,
 };
 
 export type FilterSetter<T = string> = (nextValue: T, options?: SetFilterOptions) => string;

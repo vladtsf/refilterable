@@ -8,7 +8,7 @@ import PageButton from './PageButton';
 
 export default function Pagination() {
   const [page] = useFilter(pageFilter);
-  
+
   return (
     <div>
       <RenderCounter />

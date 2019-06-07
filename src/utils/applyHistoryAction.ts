@@ -6,6 +6,8 @@ export default function applyHistoryAction(
   params: URLSearchParams, 
   options: SetFilterOptions
 ): string {
+  // make sure the order of params is stable
+  params.sort();
   // convert query to query string
   const queryString = params.toString();
   

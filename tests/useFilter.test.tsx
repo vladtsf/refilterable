@@ -279,8 +279,8 @@ describe('useFilter', () => {
     renderHook(() => useFilter<string>('foo'), { wrapper });
     
     const debugCallback = useDebugValue.mock.calls[0][1];
-    expect(useDebugValue).toHaveBeenCalledWith('foo', expect.any(Function));
+    expect(useDebugValue).toHaveBeenCalledWith('useFilter', expect.any(Function));
     // @ts-ignore
-    expect(debugCallback()).toBe('foo: bar');
+    expect(debugCallback()).toBe('foo');
   });
 });
