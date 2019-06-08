@@ -1,7 +1,7 @@
 import React from 'react';
 import { History } from 'history';
 import { renderHook, act } from 'react-hooks-testing-library'
-import { useFilter, FiltersProvider, createFilter } from '../src';
+import { useFilter, FiltersProvider, createFilter, composeFilters } from '../src';
 import { createMemoryHistory } from 'history';
 
 describe('useFilter', () => {
@@ -40,6 +40,24 @@ describe('useFilter', () => {
 
     expect(foo).toBeUndefined();
     expect(setFoo).toBeInstanceOf(Function);
+  });
+
+  it('should throw an error if there is a filter configuration collision', () => {
+    const fooOne = createFilter('foo', { validate() { return true } });
+    const fooTwo = createFilter('foo', { validate() { return false } });
+    expect(() => {
+      renderHook(() => [
+        useFilter(fooOne),
+        useFilter(fooTwo)
+      ], { wrapper });
+    }).toThrowErrorMatchingSnapshot();
+
+    expect(() => {
+      renderHook(() => [
+        useFilter('foo'),
+        useFilter(fooTwo)
+      ], { wrapper });
+    }).toThrowErrorMatchingSnapshot();
   });
 
   it('should not allow to initialize filters with plain objects', () => {
@@ -270,6 +288,115 @@ describe('useFilter', () => {
           useFilter<string>(createFilter('foo', { parse: (): string => '' }))
         ), { wrapper });
       }).not.toThrow();
+    });
+  });
+
+  describe('composite filters', () => {
+    const minFilter = createFilter('min', { 
+      parse: parseInt,
+      defaultValue: '0',
+    });
+    const maxFilter = createFilter('max', { 
+      parse: parseInt,
+      defaultValue: '100',
+    });
+    
+    const rangeFilter = composeFilters([
+      minFilter, 
+      maxFilter
+    ], ({ min, max }) => min <= max);
+    
+    it('should take composite filters', () => {
+      const { result } = renderHook(() => useFilter(rangeFilter), { wrapper });
+
+      act(() => {
+        history.push({ search: 'min=100&max=200' });
+      });
+
+      const [range] = result.current;
+
+      expect(range).toEqual({ min: 100, max: 200 });
+    });
+
+    it('should allow to set composite filter values', () => {
+      const { result } = renderHook(() => useFilter(rangeFilter), { wrapper });
+
+      act(() => {
+        const [, setRange] = result.current;
+        setRange({ min: 100, max: 200 });
+      });
+
+      const [range] = result.current;
+
+      expect(range).toEqual({ min: 100, max: 200 });
+      expect(history.location.search).toBe('?max=200&min=100');
+    });
+
+    it('should allow to set values of the filters incrementally', () => {
+      const { result } = renderHook(() => useFilter(rangeFilter), { wrapper });
+
+      let nextSearch;
+
+      act(() => {
+        history.push({ search: 'min=100&max=200' });
+        const [, setRange] = result.current;
+        nextSearch = setRange({ min: 150 }, { incrementally: true });
+      });
+
+      const [range] = result.current;
+
+      expect(range).toEqual({ min: 150, max: 200 });
+      expect(nextSearch).toBe('max=200&min=150');
+      expect(history.location.search).toBe('?max=200&min=150');
+    });
+
+    it('should not set values of the filters incrementally by default', () => {
+      const { result } = renderHook(() => useFilter(rangeFilter), { wrapper });
+
+      let nextSearch;
+
+      act(() => {
+        history.push({ search: 'min=100&max=200' });
+        const [, setRange] = result.current;
+        nextSearch = setRange({ min: 50 });
+      });
+
+      const [range] = result.current;
+
+      expect(range).toEqual({ min: 50, max: 100 });
+      expect(nextSearch).toBe('min=50');
+      expect(history.location.search).toBe('?min=50');
+    });
+
+    it('should delete params when undefined is explicitly passed even if the "incrementally" flag is set to true', () => {
+      const { result } = renderHook(() => useFilter(rangeFilter), { wrapper });
+
+      let nextSearch;
+
+      act(() => {
+        history.push({ search: 'min=100&max=200' });
+        const [, setRange] = result.current;
+        nextSearch = setRange({ min: 50, max: undefined }, { incrementally: true });
+      });
+
+      const [range] = result.current;
+
+      expect(range).toEqual({ min: 50, max: 100 });
+      expect(nextSearch).toBe('min=50');
+      expect(history.location.search).toBe('?min=50');
+    });
+
+    it('should return undefined if the values together are invalid', () => {
+      const { result } = renderHook(() => useFilter(rangeFilter), { wrapper });
+
+      let nextSearch;
+
+      act(() => {
+        history.push({ search: 'min=100&max=50' });
+      });
+
+      const [range] = result.current;
+      expect(range).toBeUndefined();
     });
   });
 

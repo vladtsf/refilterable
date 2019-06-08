@@ -128,7 +128,7 @@ export default function useFilter<T = undefined>(
         } else {
           // a value is provided, ...
           const formattedValue = format(nextValue);
-  
+
           invariant(
             typeof formattedValue === 'string',
             `re-filter: a custom formatter (${paramName}) produced a non-string value. 
