@@ -1,6 +1,6 @@
 import invariant from 'invariant';
 import { FilterConfig, FilterObject } from './utils/types';
-import { CREATE_FILTER_MARKER } from './utils/constants';
+import { FILTER_OBJECT_MARKER, FILTER_HAS_OVEWRITES } from './utils/constants';
 
 
 export default function createFilter<T>(paramName: string, config?: FilterConfig<T>): FilterObject<T> {
@@ -14,7 +14,8 @@ export default function createFilter<T>(paramName: string, config?: FilterConfig
     format(value: T): string { return String(value); },
     validate(): boolean { return true; },
     defaultValue: undefined,
-    [CREATE_FILTER_MARKER]: true,
+    [FILTER_OBJECT_MARKER]: true,
+    [FILTER_HAS_OVEWRITES]: !config,
   };
 
   return {

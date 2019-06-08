@@ -1,6 +1,6 @@
 import React from 'react';
 import { render } from 'react-dom';
-import { FiltersProvider } from '..'; // import { FiltersProvider } from 're-filter';
+import { FiltersProvider, useFilter, createFilter, composeFilters } from '..'; // import { FiltersProvider } from 're-filter';
 import { createBrowserHistory } from 'history';
 
 import RenderCounter from './RenderCounter';
@@ -8,8 +8,10 @@ import LastClickTimeButton from './LastClickTimeButton';
 import Pagination from './Pagination';
 import ResetButton from './ResetButton';
 import RandomNumber from './RandomNumber';
+import Range from './Range';
 
 const history = createBrowserHistory();
+window.appHistory = history;
 
 function App() {
   return (
@@ -19,6 +21,7 @@ function App() {
       <LastClickTimeButton />
       <RandomNumber />
       <ResetButton />
+      <Range />
     </FiltersProvider>
   );
 }

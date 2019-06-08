@@ -1,25 +1,26 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`useFilter interaction with provider should not allow multiple configurations to be attached to the same URL parameter 1`] = `
-"re-filter: you attempted to register multiple filters with different configurations 
-         under the same name (foo), which is not allowed."
-`;
+exports[`useFilter interaction with provider should not allow multiple configurations to be attached to the same URL parameter 1`] = `"re-filter: you attempted to register conflicting configurations for the \\"foo\\" filter"`;
 
 exports[`useFilter read and update filter values format() should throw an exception if a formatter produces a non-string value 1`] = `
 "re-filter: a custom formatter (foo) produced a non-string value. 
-       Make sure your formatter always returns a string"
+            Make sure your formatter always returns a string"
 `;
 
 exports[`useFilter should not allow to initialize filters with plain objects 1`] = `
-"re-filter: you called useFilter (foo) and passed an invalid filter object. 
-     Instead of constructing the configuration object on your own, 
-     use the \\"createFilter\\" function."
+"re-filter: you called useFilter and passed an invalid filter object. 
+      Instead of constructing the configuration object on your own, 
+      use createFilter() or composeFilters()."
 `;
 
 exports[`useFilter should not allow to initialize filters with plain objects 2`] = `
-"re-filter: you called useFilter ([unknown param name]) and passed an invalid filter object. 
-     Instead of constructing the configuration object on your own, 
-     use the \\"createFilter\\" function."
+"re-filter: you called useFilter and passed an invalid filter object. 
+      Instead of constructing the configuration object on your own, 
+      use createFilter() or composeFilters()."
 `;
+
+exports[`useFilter should throw an error if there is a filter configuration collision 1`] = `"re-filter: you attempted to register conflicting configurations for the \\"foo\\" filter"`;
+
+exports[`useFilter should throw an error if there is a filter configuration collision 2`] = `"re-filter: you attempted to register conflicting configurations for the \\"foo\\" filter"`;
 
 exports[`useFilter should throw an error when there is no provider in the tree 1`] = `"re-filter: Components that utilize the \\"useFilter\\" hook need to be wrapped with FiltersProvider."`;

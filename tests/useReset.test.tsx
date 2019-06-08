@@ -25,6 +25,46 @@ describe('useReset', () => {
     }).toThrowErrorMatchingSnapshot();
   });
 
+  it('should throw an error if the value provided is not a filter', () => {
+    expect(() => {
+      // @ts-ignore
+      renderHook(() => useReset({}), { wrapper }).result.current;
+    }).toThrowErrorMatchingSnapshot();
+  });
+
+  test('if filters are provided, do not reset the rest of the filters', () => {
+    const foo = createFilter('foo');
+    const { result: hooks } = renderHook(() => [
+      useFilter(foo),
+      useFilter('bar'),
+      useReset(foo),
+    ], { wrapper });
+
+    let nextSearch;
+
+    act(() => {
+      const [fooHook, barHook, reset] = hooks.current;
+
+      // @ts-ignore
+      const [, setFoo] = fooHook;
+      // @ts-ignore
+      const [, setBar] = barHook;
+
+      // @ts-ignore
+      setFoo('foo');
+      // @ts-ignore
+      setBar('bar');
+
+      // @ts-ignore
+      nextSearch = reset();
+    });
+    
+    const [fooHook, barHook] = hooks.current;
+    expect(history.location.search).toBe('?bar=bar');
+    expect(nextSearch).toBe('bar=bar');
+    expect(fooHook[0]).toBeUndefined();
+    expect(barHook[0]).toBe('bar');
+  });
 
   it('should delete all the registered filters without default values', () => {
     const { result: hooks } = renderHook(() => [
@@ -46,7 +86,7 @@ describe('useReset', () => {
       // @ts-ignore
       setBar('bar');
 
-      expect(history.location.search).toBe('?foo=foo&bar=bar');
+      expect(history.location.search).toBe('?bar=bar&foo=foo');
 
       // @ts-ignore
       reset();

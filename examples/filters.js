@@ -1,4 +1,4 @@
-import { createFilter } from '..'; // import { createFilter } from 're-filter';
+import { createFilter, composeFilters } from '..'; // import { createFilter } from 're-filter';
 
 export const pageFilter = createFilter('page', { 
   parse: (input) => parseInt(input), 
@@ -12,3 +12,17 @@ export const lastClickFilter = createFilter('last-click', {
   format: (date) => String(Number(date)), 
   defaultValue: Date.now(),
 });
+
+export const minFilter = createFilter('min', { 
+  parse: parseInt,
+  defaultValue: '0',
+});
+export const maxFilter = createFilter('max', { 
+  parse: parseInt,
+  defaultValue: '100',
+});
+
+export const rangeFilter = composeFilters([
+  minFilter, 
+  maxFilter
+], ({ min, max }) => min <= max);
