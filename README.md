@@ -1,46 +1,102 @@
-# rollup-starter-lib
+<div align="center">
+<h1>re-filter</h1>
 
-[![Greenkeeper badge](https://badges.greenkeeper.io/rollup/rollup-starter-lib.svg)](https://greenkeeper.io/)
+<p>A "batteries-included" library to manage URL filters in React-based apps. Uses hooks</p>
+<br />
+</div>
 
-This repo contains a bare-bones example of how to create a library using Rollup, including importing a module from `node_modules` and converting it from CommonJS.
+<hr />
 
-We're creating a library called `how-long-till-lunch`, which usefully tells us how long we have to wait until lunch, using the [ms](https://github.com/zeit/ms) package:
+## Table of Contents
 
-```js
-console.log('it will be lunchtime in ' + howLongTillLunch());
+- [The problem](#the-problem)
+- [This solution](#this-solution)
+- [Example](#example)
+- [Installation](#installation)
+- [LICENSE](#license)
+
+## The problem
+
+You want to have stable, reusable URL filters in your React app. As part of this goal, you want to make sure your existing URL filters are not impacted by your new solution. Ideally, you also want to standardize all your interaction with URL filters once and then just refer to existing patterns when you need to add a new filter. Next, you want to make sure you have access to certain filter from any component in your codebase. Plus, you want to make sure small changes in the URL don't cause the whole tree of React components to rerender. Finally, you want to be able to set filters both from your JavaScript code and `<a>` or react-router `<Link>` tags. All this has to be dead simple so you can focus on your app instead of reinventing the wheel.
+
+## This solution
+
+`re-filter` offers a simple two-step approach to the problem. You first define what URL parameters you're going to handle and then use a hook that gives allows you to access and mutate those parameters. You can also compose multiple filters into groups, which will allow you to batch mutations. The hook will cause your component to rerender only when the URL parameters relevant to the component change. It will also protect your component from values that are invalid – naturally you'll define what invalid means to you.
+
+## Example
+
+```jsx
+// Range.jsx
+import { createFilter, composeFilters, useFilter } from 're-filter';
+
+const minFilter = createFilter('min', {
+  parse: (input) => parseInt(input),
+  format: (value) => String(value),
+  defaultValue: 0,
+  validate: (input, parse) => parse(input) >= 0,
+});
+
+const maxFilter = createFilter('max', {
+  parse: (input) => parseInt(input),
+  format: (value) => String(value),
+  defaultValue: 100,
+  validate: (input, parse) => parse(input) >= 0,
+});
+
+const rangeFilter = composeFilters([min, max], ({ min, max }) => min <= max);
+
+export function RangeInput() {
+  const [min, setMin] = useFilter(minFilter);
+  const [max, setMax] = useFilter(maxFilter);
+
+  return (
+    <>
+      Min: <input type="number" onChange={setMin()} />
+      Max: <input type="number" onChange={setMax()} />
+    </>
+  );
+}
+
+export function Range() {
+  const [range, setRange] = useFilter(rangeFilter);
+
+  return (
+    <>
+      Min: {range.min}
+      Max: {range.max}
+      <button onClick={() => setRange({ min: 0, max: 100 })}>Set [0-100]</button>
+    </>
+  );
+}
+
+// App.jsx
+import { FiltersProvider, useReset } from 're-filter';
+
+const history = createBrowserHistory();
+
+function App() {
+  return (
+    <FiltersProvider history={history}>
+      <form>
+        <RangeInput />
+        <Range>
+      </form>
+    </FiltersProvider>
+  );
+}
+
 ```
 
-## Getting started
+## Installation
 
-Clone this repository and install its dependencies:
+This module can be installed via `npm` or `yarn` and should be installed as one of your project's `dependencies`:
 
-```bash
-git clone https://github.com/rollup/rollup-starter-lib
-cd rollup-starter-lib
-npm install
+```
+npm install --save re-filter
 ```
 
-`npm run build` builds the library to `dist`, generating three files:
+```
+yarn add re-filter
+```
 
-* `dist/how-long-till-lunch.cjs.js`
-    A CommonJS bundle, suitable for use in Node.js, that `require`s the external dependency. This corresponds to the `"main"` field in package.json
-* `dist/how-long-till-lunch.esm.js`
-    an ES module bundle, suitable for use in other people's libraries and applications, that `import`s the external dependency. This corresponds to the `"module"` field in package.json
-* `dist/how-long-till-lunch.umd.js`
-    a UMD build, suitable for use in any environment (including the browser, as a `<script>` tag), that includes the external dependency. This corresponds to the `"browser"` field in package.json
-
-`npm run dev` builds the library, then keeps rebuilding it whenever the source files change using [rollup-watch](https://github.com/rollup/rollup-watch).
-
-`npm test` builds the library, then tests it.
-
-## Variations
-
-* [babel](https://github.com/rollup/rollup-starter-lib/tree/babel) — illustrates writing the source code in ES2015 and transpiling it for older environments with [Babel](https://babeljs.io/)
-* [buble](https://github.com/rollup/rollup-starter-lib/tree/buble) — similar, but using [Bublé](https://buble.surge.sh/) which is a faster alternative with less configuration
-* [TypeScript](https://github.com/rollup/rollup-starter-lib/tree/typescript) — uses [TypeScript](https://www.typescriptlang.org/) for type-safe code and transpiling
-
-
-
-## License
-
-[MIT](LICENSE).
+This library has `peerDependencies` listings for `react` and `history`.
