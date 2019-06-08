@@ -14,7 +14,7 @@ type Props = {
 const FiltersProvider: FunctionComponent<Props> = ({ history, children }: Props) => {
   invariant(
     history,
-    `re-filter: FiltersProvider was not passed a history instance. 
+    `refilterable: FiltersProvider was not passed a history instance. 
      Make sure you pass it via the history prop`,
   );
 

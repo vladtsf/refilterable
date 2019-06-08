@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`FiltersProvider should throw an error when the "history" prop is not passed 1`] = `
-"re-filter: FiltersProvider was not passed a history instance. 
+"refilterable: FiltersProvider was not passed a history instance. 
      Make sure you pass it via the history prop"
 `;

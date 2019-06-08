@@ -1,5 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`createFilter should throw an error if the param name is not specified 1`] = `"re-filter: param name cannot be empty"`;
+exports[`createFilter should throw an error if the param name is not specified 1`] = `"refilterable: param name cannot be empty"`;
 
-exports[`createFilter should throw an error if the param name is not specified 2`] = `"re-filter: param name cannot be empty"`;
+exports[`createFilter should throw an error if the param name is not specified 2`] = `"refilterable: param name cannot be empty"`;

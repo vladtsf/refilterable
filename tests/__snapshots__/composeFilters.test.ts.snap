@@ -1,15 +1,15 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`composeFilters should not work if no filters are passed 1`] = `"re-filter: you called compose filters and didn't pass any filters "`;
+exports[`composeFilters should not work if no filters are passed 1`] = `"refilterable: you called compose filters and didn't pass any filters "`;
 
-exports[`composeFilters should not work if no filters are passed 2`] = `"re-filter: you called compose filters and didn't pass any filters "`;
+exports[`composeFilters should not work if no filters are passed 2`] = `"refilterable: you called compose filters and didn't pass any filters "`;
 
 exports[`composeFilters should refuse to work with object literals 1`] = `
-"re-filter: composeFilters() was called with non-filter objects. 
+"refilterable: composeFilters() was called with non-filter objects. 
     Use createFilter() to create filters"
 `;
 
 exports[`composeFilters should refuse to work with object literals 2`] = `
-"re-filter: composeFilters() was called with non-filter objects. 
+"refilterable: composeFilters() was called with non-filter objects. 
     Use createFilter() to create filters"
 `;

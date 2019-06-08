@@ -6,12 +6,12 @@ import { FilterObject, FilterComposition, isFilterObject } from './utils/types';
 export default function composeFilters(filters: FilterObject<any>[], validate?: (input: any) => boolean): FilterComposition {
   invariant(
     filters && filters.length > 0,
-    `re-filter: you called compose filters and didn't pass any filters `
+    `refilterable: you called compose filters and didn't pass any filters `
   );
 
   invariant(
     filters.every(filter => isFilterObject(filter)),
-    `re-filter: composeFilters() was called with non-filter objects. 
+    `refilterable: composeFilters() was called with non-filter objects. 
     Use createFilter() to create filters`,
   );
 

@@ -29,7 +29,7 @@ export default function useFilter<T = undefined>(
 
   invariant(
     context,
-    `re-filter: Components that utilize the "useFilter" hook need to be wrapped with FiltersProvider.`,
+    `refilterable: Components that utilize the "useFilter" hook need to be wrapped with FiltersProvider.`,
   );
 
   const { locationObserver, history, filterRegistry } = context;
@@ -45,7 +45,7 @@ export default function useFilter<T = undefined>(
   } else {
     invariant(
       (isFilterComposition(filter) || isFilterObject(filter)),
-      `re-filter: you called useFilter and passed an invalid filter object. 
+      `refilterable: you called useFilter and passed an invalid filter object. 
       Instead of constructing the configuration object on your own, 
       use createFilter() or composeFilters().`
     );
@@ -71,7 +71,7 @@ export default function useFilter<T = undefined>(
     filters.forEach((filter) => {
       invariant(
         !filterRegistry.isColliding(filter),
-        `re-filter: you attempted to register conflicting configurations for the "${filter.paramName}" filter`
+        `refilterable: you attempted to register conflicting configurations for the "${filter.paramName}" filter`
       );
 
       filterRegistry.addFilter(filter);
@@ -131,7 +131,7 @@ export default function useFilter<T = undefined>(
 
           invariant(
             typeof formattedValue === 'string',
-            `re-filter: a custom formatter (${paramName}) produced a non-string value. 
+            `refilterable: a custom formatter (${paramName}) produced a non-string value. 
             Make sure your formatter always returns a string`,
           );
           // apply the new value

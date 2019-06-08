@@ -120,7 +120,7 @@ describe('useReset', () => {
     });
   });
 
-  it('should not impact any URL parameters managed outside of re-filter', () => {
+  it('should not impact any URL parameters managed outside of refilterable', () => {
     history.push({ search: 'legacyParam=10' });
     const { result } = renderHook(() => useReset(), { wrapper });
 

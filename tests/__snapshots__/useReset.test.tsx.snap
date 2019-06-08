@@ -1,9 +1,9 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`useReset should throw an error if the value provided is not a filter 1`] = `
-"re-filter: you called useReset() and passed an invalid filter object. 
+"refilterable: you called useReset() and passed an invalid filter object. 
       Instead of constructing the configuration object on your own, 
       use createFilter() or composeFilters()."
 `;
 
-exports[`useReset should throw an error when there is no provider in the tree 1`] = `"re-filter: Components that utilize the \\"useFilter\\" hook need to be wrapped with FiltersProvider."`;
+exports[`useReset should throw an error when there is no provider in the tree 1`] = `"refilterable: Components that utilize the \\"useFilter\\" hook need to be wrapped with FiltersProvider."`;

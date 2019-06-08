@@ -16,13 +16,13 @@ export default function useReset(filter?: FilterDefinition): FilterResetter {
 
   invariant(
     context,
-    `re-filter: Components that utilize the "useFilter" hook need to be wrapped with FiltersProvider.`,
+    `refilterable: Components that utilize the "useFilter" hook need to be wrapped with FiltersProvider.`,
   );
 
   if (filter) {
     invariant(
       (isFilterComposition(filter) || isFilterObject(filter)),
-      `re-filter: you called useReset() and passed an invalid filter object. 
+      `refilterable: you called useReset() and passed an invalid filter object. 
       Instead of constructing the configuration object on your own, 
       use createFilter() or composeFilters().`
     );

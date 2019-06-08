@@ -1,5 +1,5 @@
 import React from 'react';
-import { useReset } from ".."; // import { useReset } from "re-filter"; 
+import { useReset } from ".."; // import { useReset } from "refilterable"; 
 import RenderCounter from './RenderCounter';
 
 export default function ResetButton() {

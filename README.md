@@ -1,5 +1,5 @@
 <div align="center">
-<h1>re-filter</h1>
+<h1>refilterable</h1>
 
 <p>A "batteries-included" library to manage URL filters in React-based apps. Uses hooks</p>
 <br />
@@ -21,13 +21,13 @@ You want to have stable, reusable URL filters in your React app. As part of this
 
 ## This solution
 
-`re-filter` offers a simple two-step approach to the problem. You first define what URL parameters you're going to handle and then use a hook that gives allows you to access and mutate those parameters. You can also compose multiple filters into groups, which will allow you to batch mutations. The hook will cause your component to rerender only when the URL parameters relevant to the component change. It will also protect your component from values that are invalid – naturally you'll define what invalid means to you.
+`refilterable` offers a simple two-step approach to the problem. You first define what URL parameters you're going to handle and then use a hook that gives allows you to access and mutate those parameters. You can also compose multiple filters into groups, which will allow you to batch mutations. The hook will cause your component to rerender only when the URL parameters relevant to the component change. It will also protect your component from values that are invalid – naturally you'll define what invalid means to you.
 
 ## Example
 
 ```jsx
 // Range.jsx
-import { createFilter, composeFilters, useFilter } from 're-filter';
+import { createFilter, composeFilters, useFilter } from 'refilterable';
 
 const minFilter = createFilter('min', {
   parse: (input) => parseInt(input),
@@ -70,7 +70,7 @@ export function Range() {
 }
 
 // App.jsx
-import { FiltersProvider, useReset } from 're-filter';
+import { FiltersProvider, useReset } from 'refilterable';
 
 const history = createBrowserHistory();
 
@@ -92,11 +92,11 @@ function App() {
 This module can be installed via `npm` or `yarn` and should be installed as one of your project's `dependencies`:
 
 ```
-npm install --save re-filter
+npm install --save refilterable
 ```
 
 ```
-yarn add re-filter
+yarn add refilterable
 ```
 
 This library has `peerDependencies` listings for `react` and `history`.

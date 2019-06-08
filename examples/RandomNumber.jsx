@@ -1,5 +1,5 @@
 import React from 'react';
-import { useFilter } from '../'; // import { useFilter } from 're-filter';
+import { useFilter } from '../'; // import { useFilter } from 'refilterable';
 import RenderCounter from './RenderCounter';
 
 

@@ -1,9 +1,9 @@
 {
-  "name": "re-filter",
+  "name": "refilterable",
   "version": "1.0.0-alpha.0",
-  "main": "dist/re-filter.cjs.js",
-  "module": "dist/re-filter.esm.js",
-  "browser": "dist/re-filter.umd.js",
+  "main": "dist/refilterable.cjs.js",
+  "module": "dist/refilterable.esm.js",
+  "browser": "dist/refilterable.umd.js",
   "types": "dist/index.d.ts",
   "dependencies": {
     "invariant": "^2.2.4",

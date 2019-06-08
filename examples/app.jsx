@@ -1,6 +1,6 @@
 import React from 'react';
 import { render } from 'react-dom';
-import { FiltersProvider, useFilter, createFilter, composeFilters } from '..'; // import { FiltersProvider } from 're-filter';
+import { FiltersProvider, useFilter, createFilter, composeFilters } from '..'; // import { FiltersProvider } from 'refilterable';
 import { createBrowserHistory } from 'history';
 
 import RenderCounter from './RenderCounter';
