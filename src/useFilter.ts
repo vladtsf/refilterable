@@ -41,7 +41,7 @@ export default function useFilter<T = undefined>(
 
   // filter is a string
   if (typeof filter === 'string') {
-    filters = [createFilter(filter)];
+    filters = [createFilter<T>(filter)];
   } else {
     invariant(
       (isFilterComposition(filter) || isFilterObject(filter)),
