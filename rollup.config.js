@@ -60,9 +60,6 @@ export default [
 			...Object.keys(pkg.peerDependencies || {}),
 		],
 		plugins: [
-			replace({
-				'process.env.NODE_ENV': JSON.stringify('production'),
-			}),
 			typescript(), // so Rollup can convert TypeScript to JavaScript,
 			commonjs(commonjsConfig),
 		],
