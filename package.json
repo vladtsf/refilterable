@@ -1,6 +1,6 @@
 {
   "name": "re-filter",
-  "version": "0.0.1",
+  "version": "1.0.0-alpha.0",
   "main": "dist/re-filter.cjs.js",
   "module": "dist/re-filter.esm.js",
   "browser": "dist/re-filter.umd.js",
