@@ -6,8 +6,7 @@
   "browser": "dist/refilterable.umd.js",
   "types": "dist/index.d.ts",
   "dependencies": {
-    "invariant": "^2.2.4",
-    "rollup-plugin-typescript2": "^0.21.1"
+    "invariant": "^2.2.4"
   },
   "peerDependencies": {
     "history": "^4.7.2",
@@ -31,6 +30,7 @@
     "rollup-plugin-commonjs": "^9.2.0",
     "rollup-plugin-node-resolve": "^4.0.0",
     "rollup-plugin-replace": "^2.2.0",
+    "rollup-plugin-typescript2": "^0.21.1",
     "ts-jest": "^24.0.2",
     "ts-node": "^7.0.1",
     "tslib": "^1.9.3",

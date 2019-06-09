@@ -50,10 +50,10 @@ export function RangeInput() {
   const [max, setMax] = useFilter(maxFilter);
 
   return (
-    <>
+    <div>
       Min: <input type="number" onChange={setMin()} />
       Max: <input type="number" onChange={setMax()} />
-    </>
+    </div>
   );
 }
 
@@ -61,11 +61,11 @@ export function Range() {
   const [range, setRange] = useFilter(rangeFilter);
 
   return (
-    <>
+    <div>
       Min: {range.min}
       Max: {range.max}
       <button onClick={() => setRange({ min: 0, max: 100 })}>Set [0-100]</button>
-    </>
+    </div>
   );
 }
 
