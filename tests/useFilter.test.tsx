@@ -1,5 +1,6 @@
 import React from 'react';
 import { History } from 'history';
+import { render, act as reactTestingLibraryAct } from '@testing-library/react'
 import { renderHook, act } from 'react-hooks-testing-library'
 import { useFilter, FiltersProvider, createFilter, composeFilters } from '../src';
 import { createMemoryHistory } from 'history';
@@ -397,6 +398,47 @@ describe('useFilter', () => {
 
       const [range] = result.current;
       expect(range).toBeUndefined();
+    });
+  });
+
+  describe('performance', () => {
+    let ConsumerComponent;
+    let Wrapper;
+    
+    beforeEach(() => {
+      Wrapper = wrapper;
+      ConsumerComponent = jest.fn().mockImplementation(() => {
+        const [foo] = useFilter('foo');
+        return null;
+      });
+    });
+
+    test('useFilter should cause the consumer component to rerender when critical values change (control group)', () => {
+      render(
+        <Wrapper>
+          <ConsumerComponent />
+        </Wrapper>
+      );
+
+      reactTestingLibraryAct(() => {
+        history.push({ search: 'foo=bar' });
+      });
+
+      expect(ConsumerComponent).toHaveBeenCalledTimes(2);
+    });
+
+    test('useFilter should not cause the consumer component to rerender when irrelevant values change', () => {
+      render(
+        <Wrapper>
+          <ConsumerComponent />
+        </Wrapper>
+      );
+
+      reactTestingLibraryAct(() => {
+        history.push({ search: 'bar=foo' });
+      });
+
+      expect(ConsumerComponent).toHaveBeenCalledTimes(1);
     });
   });
 
