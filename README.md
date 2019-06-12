@@ -1,10 +1,12 @@
 <div align="center" markdown="1">
-<h1>refilterable</h1>
-<img src="https://user-images.githubusercontent.com/832496/59318673-a6931080-8c7c-11e9-963b-b876d0879a70.png" alt="refilterable" />
-**"batteries-included" library to manage URL filters in React-based apps. Uses hooks**
-</div>
 
-<hr />
+<h1>refilterable</h1>
+
+<img src="https://user-images.githubusercontent.com/832496/59318673-a6931080-8c7c-11e9-963b-b876d0879a70.png" alt="refilterable" />
+
+**"batteries-included" library to manage URL filters in React-based apps. Uses hooks**
+
+</div>
 
 ## Table of Contents
 
