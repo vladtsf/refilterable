@@ -7,6 +7,9 @@
 
 <hr />
 
+![refilterable](https://user-images.githubusercontent.com/832496/59318673-a6931080-8c7c-11e9-963b-b876d0879a70.png)
+
+
 ## Table of Contents
 
 - [The problem](#the-problem)
