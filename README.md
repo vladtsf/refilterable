@@ -2,7 +2,7 @@
 
 <h1>refilterable</h1>
 
-<img src="https://user-images.githubusercontent.com/832496/59319154-7ea4ac80-8c7e-11e9-82d0-bbdeea3bb6d7.png" alt="refilterable" />
+<img src="https://user-images.githubusercontent.com/832496/59319216-b3186880-8c7e-11e9-9dcf-2d6a46c3508a.png" alt="refilterable" />
 
 **"batteries-included" library to manage URL filters in React-based apps. Uses hooks**
 
