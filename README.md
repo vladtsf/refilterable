@@ -8,6 +8,8 @@
 
 </div>
 
+[![CircleCI](https://circleci.com/gh/vladtsf/refilterable.svg?style=svg)](https://circleci.com/gh/vladtsf/refilterable)
+
 ## Table of Contents
 
 - [The problem](#the-problem)
