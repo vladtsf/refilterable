@@ -4,6 +4,12 @@
 
 <img src="https://user-images.githubusercontent.com/832496/59319419-6e410180-8c7f-11e9-8ef9-0772ba1cc5a1.png" alt="refilterable" />
 
+<br />
+<a href=""><img alt="CircleCI" src="https://circleci.com/gh/vladtsf/refilterable.svg?style=svg" /></a>
+<a href="https://codecov.io/gh/vladtsf/refilterable">
+  <img src="https://codecov.io/gh/vladtsf/refilterable/branch/master/graph/badge.svg?token=aSCMYCwhra" />
+</a>
+
 **"batteries-included" library to manage URL filters in React-based apps. Uses hooks**
 
 </div>
