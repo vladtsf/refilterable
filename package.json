@@ -1,6 +1,6 @@
 {
   "name": "refilterable",
-  "version": "1.0.0-alpha.1",
+  "version": "1.0.0-alpha.2",
   "main": "dist/refilterable.cjs.js",
   "module": "dist/refilterable.esm.js",
   "browser": "dist/refilterable.umd.js",
