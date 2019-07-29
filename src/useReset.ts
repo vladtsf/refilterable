@@ -22,29 +22,29 @@ export default function useReset(filter?: FilterDefinition): FilterResetter {
   if (filter) {
     invariant(
       (isFilterComposition(filter) || isFilterObject(filter)),
-      `refilterable: you called useReset() and passed an invalid filter object. 
-      Instead of constructing the configuration object on your own, 
+      `refilterable: you called useReset() and passed an invalid filter object.
+      Instead of constructing the configuration object on your own,
       use createFilter() or composeFilters().`
     );
 
     filtersToReset = isFilterComposition(filter) ? filter.filters : [filter];
   }
-  
+
   // @ts-ignore because this is checked by invariant
   const { locationObserver, history, filterRegistry } = context;
 
   const reset = useCallback((options: SetFilterOptions = defaultSetFilterOptions): string => {
     const params = locationObserver.getCurrentParams();
-    
+
     (filtersToReset || filterRegistry.getAllFilters())
-      .forEach(({ paramName, defaultValue }: FilterObject<any>) => {
-        if (typeof defaultValue === "undefined") {
+      .forEach(({ paramName, resetValue }: FilterObject<any>) => {
+        if (typeof resetValue === "undefined") {
           params.delete(paramName);
         } else {
-          params.set(paramName, defaultValue);
+          params.set(paramName, resetValue);
         }
       });
-      
+
     return applyHistoryAction(history, params, options);
   }, [history]);
 

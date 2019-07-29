@@ -27,6 +27,13 @@ describe('createFilter', () => {
     expect(filter.validate('foo', filter.parse)).toBe(true);
   });
 
+  test('resetValue should fall back to defaultValue', () => {
+    const filter = createFilter('foo', { defaultValue: "bar" });
+
+    expect(filter.resetValue).toBe(filter.defaultValue);
+    expect(filter.resetValue).toBe("bar");
+  });
+
   it('should allow the user to override parse, format, and validate methods', () => {
     const parse = jest.fn();
     const format = jest.fn();
