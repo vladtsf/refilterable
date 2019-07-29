@@ -1,8 +1,8 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`useReset should throw an error if the value provided is not a filter 1`] = `
-"refilterable: you called useReset() and passed an invalid filter object. 
-      Instead of constructing the configuration object on your own, 
+"refilterable: you called useReset() and passed an invalid filter object.
+      Instead of constructing the configuration object on your own,
       use createFilter() or composeFilters()."
 `;
 

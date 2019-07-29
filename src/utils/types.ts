@@ -4,19 +4,21 @@ import { FILTER_OBJECT_MARKER, FILTER_COMPOSITION_MARKER } from './constants';
 
 export type ParseFunction<T> = (input: string) => T | undefined;
 
-export interface FilterConfig<T = string> {
-	parse?: ParseFunction<T>;
-  format?(value: T): string; 
-  validate?(input: string, parse: ParseFunction<T>): boolean;
-  defaultValue?: string | undefined;
-}
-
 export interface FilterObject<T = undefined> {
   paramName: string;
-	parse: ParseFunction<T>;
-  format(value: T): string; 
+  parse: ParseFunction<T>;
+  format(value: T): string;
   validate(input: string, parse: ParseFunction<T>): boolean;
   defaultValue?: string | undefined;
+  resetValue?: string | undefined;
+}
+
+export interface FilterConfig<T = string> {
+  parse?: ParseFunction<T>;
+  format?(value: T): string;
+  validate?(input: string, parse: ParseFunction<T>): boolean;
+  defaultValue?: string | undefined;
+  resetValue?: string | undefined;
 }
 
 export interface FilterComposition {
@@ -28,8 +30,8 @@ export type FilterDefinition<T = any> = FilterObject<T> | FilterComposition;
 
 /**
  * User defined type guard to check if the passed object is a valid instance of FiterObject
- * 
- * @param filter 
+ *
+ * @param filter
  */
 export function isFilterObject<T = any>(filter: FilterDefinition<T>): filter is FilterObject<T> {
   return Boolean(filter[FILTER_OBJECT_MARKER]);
@@ -37,8 +39,8 @@ export function isFilterObject<T = any>(filter: FilterDefinition<T>): filter is 
 
 /**
  * User defined type guard to check if the passed object is a valid instance of FiterObject
- * 
- * @param filter 
+ *
+ * @param filter
  */
 export function isFilterComposition<T = undefined>(filter: FilterDefinition<T>): filter is FilterComposition {
   return Boolean(filter[FILTER_COMPOSITION_MARKER]);
