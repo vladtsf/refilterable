@@ -9,9 +9,9 @@ describe('useReset', () => {
 
   beforeEach(() => {
     history = createMemoryHistory();
-    
+
     wrapper = ({ children }) => (
-      <FiltersProvider 
+      <FiltersProvider
         history={history}
       >
         {children}
@@ -58,7 +58,7 @@ describe('useReset', () => {
       // @ts-ignore
       nextSearch = reset();
     });
-    
+
     const [fooHook, barHook] = hooks.current;
     expect(history.location.search).toBe('?bar=bar');
     expect(nextSearch).toBe('bar=bar');
@@ -135,7 +135,7 @@ describe('useReset', () => {
 
   it('should not change the URL if the "dry" option is set to true', () => {
     history.push({ search: 'foo=bar' });
-    
+
     const { result: hooks } = renderHook(() => [
       useFilter('foo'),
       useReset(),
@@ -156,5 +156,49 @@ describe('useReset', () => {
     expect(foo).toBe('bar');
     expect(nextSearch).toBe('');
   });
-  
+
+  it('should use resetValue instead of defaultValue if the former is specified', () => {
+    const filter = createFilter("foo", { defaultValue: "foo", resetValue: "bar" });
+
+    const { result: hooks } = renderHook(() => [
+      useFilter(filter),
+      useReset(),
+    ], { wrapper });
+
+    act(() => {
+      const reset = hooks.current[1];
+      // @ts-ignore
+      reset();
+    });
+
+    // @ts-ignore
+    const [foo] = hooks.current[0];
+
+    expect(foo).toBe("bar");
+  });
+
+  it('should call the formatter before resetting filters', () => {
+    const filter = createFilter("foo", {
+      format: jest.fn().mockReturnValue("bar"),
+      resetValue: "bar",
+    });
+
+    const { result: hooks } = renderHook(() => [
+      useFilter(filter),
+      useReset(),
+    ], { wrapper });
+
+    act(() => {
+      const reset = hooks.current[1];
+      // @ts-ignore
+      reset();
+    });
+
+    // @ts-ignore
+    const [foo] = hooks.current[0];
+
+    expect(foo).toBe("bar");
+    expect(filter.format).toHaveBeenCalledWith("bar");
+  });
+
 });
