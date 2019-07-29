@@ -37,11 +37,11 @@ export default function useReset(filter?: FilterDefinition): FilterResetter {
     const params = locationObserver.getCurrentParams();
 
     (filtersToReset || filterRegistry.getAllFilters())
-      .forEach(({ paramName, resetValue }: FilterObject<any>) => {
+      .forEach(({ paramName, format, resetValue }: FilterObject<any>) => {
         if (typeof resetValue === "undefined") {
           params.delete(paramName);
         } else {
-          params.set(paramName, resetValue);
+          params.set(paramName, format(resetValue));
         }
       });
 

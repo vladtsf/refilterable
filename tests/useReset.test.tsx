@@ -177,4 +177,28 @@ describe('useReset', () => {
     expect(foo).toBe("bar");
   });
 
+  it('should call the formatter before resetting filters', () => {
+    const filter = createFilter("foo", {
+      format: jest.fn().mockReturnValue("bar"),
+      resetValue: "bar",
+    });
+
+    const { result: hooks } = renderHook(() => [
+      useFilter(filter),
+      useReset(),
+    ], { wrapper });
+
+    act(() => {
+      const reset = hooks.current[1];
+      // @ts-ignore
+      reset();
+    });
+
+    // @ts-ignore
+    const [foo] = hooks.current[0];
+
+    expect(foo).toBe("bar");
+    expect(filter.format).toHaveBeenCalledWith("bar");
+  });
+
 });
