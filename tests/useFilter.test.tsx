@@ -10,9 +10,9 @@ describe('useFilter', () => {
 
   beforeEach(() => {
     history = createMemoryHistory();
-    
+
     wrapper = ({ children }) => (
-      <FiltersProvider 
+      <FiltersProvider
         history={history}
       >
         {children}
@@ -101,7 +101,7 @@ describe('useFilter', () => {
         renderHook(() => useFilter(filter), { wrapper }).result.current;
         expect(parse).toHaveBeenCalledWith('bar');
       });
-  
+
       it('should call the parse method with the default value when the filter is not specified', () => {
         history.push({ search: '?' });
         const filter = createFilter('foo', { parse, defaultValue: 'bar' });
@@ -153,6 +153,18 @@ describe('useFilter', () => {
         expect(() => act(() => {
           setFoo('bar');
         })).toThrowErrorMatchingSnapshot();
+      });
+
+      it('should not throw an exception if a formatter produces an undefined', () => {
+        const format = jest.fn().mockReturnValue(undefined);
+        const filter = createFilter('foo', { format });
+        const [_, setFoo] = renderHook(() => useFilter(filter), { wrapper }).result.current;
+
+        expect(() => act(() => {
+          const url = setFoo('bar', { dry: true });
+
+          expect(url).toBe('');
+        })).not.toThrow();
       });
     });
 
@@ -293,20 +305,20 @@ describe('useFilter', () => {
   });
 
   describe('composite filters', () => {
-    const minFilter = createFilter('min', { 
+    const minFilter = createFilter('min', {
       parse: parseInt,
       defaultValue: '0',
     });
-    const maxFilter = createFilter('max', { 
+    const maxFilter = createFilter('max', {
       parse: parseInt,
       defaultValue: '100',
     });
-    
+
     const rangeFilter = composeFilters([
-      minFilter, 
+      minFilter,
       maxFilter
     ], ({ min, max }) => min <= max);
-    
+
     it('should take composite filters', () => {
       const { result } = renderHook(() => useFilter(rangeFilter), { wrapper });
 
@@ -404,7 +416,7 @@ describe('useFilter', () => {
   describe('performance', () => {
     let ConsumerComponent;
     let Wrapper;
-    
+
     beforeEach(() => {
       Wrapper = wrapper;
       ConsumerComponent = jest.fn().mockImplementation(() => {
@@ -446,7 +458,7 @@ describe('useFilter', () => {
     const useDebugValue = jest.spyOn(React, 'useDebugValue');
     history.push({ search: 'foo=bar' });
     renderHook(() => useFilter<string>('foo'), { wrapper });
-    
+
     const debugCallback = useDebugValue.mock.calls[0][1];
     expect(useDebugValue).toHaveBeenCalledWith('useFilter', expect.any(Function));
     // @ts-ignore
