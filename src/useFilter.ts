@@ -9,13 +9,13 @@ import { defaultSetFilterOptions } from './utils/constants';
 
 /**
  * Returns the current filter value, and a function to update it
- * 
+ *
  * @param filter can be either a string that'll server as the name of the url parameter or the filter configuration created with createFilter()
  */
 export default function useFilter<T = undefined>(
   filter: FilterDefinition<T> | string
 ) : [
-  T | { [paramName: string]: any } | undefined, 
+  T | { [paramName: string]: any } | undefined,
   FilterSetter<T>
 ] {
   // bail out if filter is empty
@@ -34,10 +34,10 @@ export default function useFilter<T = undefined>(
 
   const { locationObserver, history, filterRegistry } = context;
 
-  // normalize FilterObject vs FilterComposition 
+  // normalize FilterObject vs FilterComposition
   let filters: FilterObject<T | undefined>[];
   let compositeValidate: (input: any) => boolean = () => true;
-  let singleFilterMode: boolean = true; 
+  let singleFilterMode: boolean = true;
 
   // filter is a string
   if (typeof filter === 'string') {
@@ -45,8 +45,8 @@ export default function useFilter<T = undefined>(
   } else {
     invariant(
       (isFilterComposition(filter) || isFilterObject(filter)),
-      `refilterable: you called useFilter and passed an invalid filter object. 
-      Instead of constructing the configuration object on your own, 
+      `refilterable: you called useFilter and passed an invalid filter object.
+      Instead of constructing the configuration object on your own,
       use createFilter() or composeFilters().`
     );
 
@@ -58,7 +58,7 @@ export default function useFilter<T = undefined>(
       filters = [filter];
     }
   }
-  
+
   // at this point, we have an array of filter objects and a composite validate function
   const [, forceUpdate] = useState();
 
@@ -99,23 +99,23 @@ export default function useFilter<T = undefined>(
 
   // 4) provide a setter that changes all the filters at once
   const filterSetter = useCallback((
-    nextValue: any | { [paramName: string]: any }, 
+    nextValue: any | { [paramName: string]: any },
     options: SetFilterOptions = defaultSetFilterOptions
   ): string => {
     const params = locationObserver.getCurrentParams();
 
     function computeNextParams(): URLSearchParams {
       const valuesToSet: { [paramName: string]: any } = (
-        singleFilterMode ? 
+        singleFilterMode ?
           { [paramNames[0]]: nextValue } :
           nextValue
       );
-  
+
       const keysToSet = new Set(Object.keys(valuesToSet));
-  
+
       filters.forEach(({ paramName, format }: FilterObject<any>) => {
         let nextValue = valuesToSet[paramName];
-  
+
         // the key isn't present...
         if (!keysToSet.has(paramName)) {
           // if incrementally=true, don't change the value
@@ -130,12 +130,17 @@ export default function useFilter<T = undefined>(
           const formattedValue = format(nextValue);
 
           invariant(
-            typeof formattedValue === 'string',
-            `refilterable: a custom formatter (${paramName}) produced a non-string value. 
-            Make sure your formatter always returns a string`,
+            ['string', 'undefined'].includes(typeof formattedValue),
+            `refilterable: a custom formatter (${paramName}) produced a non-string value.
+            Make sure your formatter always returns a string or undefined`,
           );
+
           // apply the new value
-          params.set(paramName, formattedValue);
+          if (formattedValue == null) {
+            params.delete(paramName)
+          } else {
+            params.set(paramName, formattedValue);
+          }
         }
       });
 
@@ -150,10 +155,10 @@ export default function useFilter<T = undefined>(
 
   return [
     (
-      singleFilterMode ? 
-        filterValues[paramNames[0]] : 
+      singleFilterMode ?
+        filterValues[paramNames[0]] :
         compositeValidate(filterValues) ? filterValues : undefined
-    ), 
+    ),
     filterSetter
-  ];  
+  ];
 }
