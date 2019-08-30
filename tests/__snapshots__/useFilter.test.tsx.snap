@@ -3,19 +3,19 @@
 exports[`useFilter interaction with provider should not allow multiple configurations to be attached to the same URL parameter 1`] = `"refilterable: you attempted to register conflicting configurations for the \\"foo\\" filter"`;
 
 exports[`useFilter read and update filter values format() should throw an exception if a formatter produces a non-string value 1`] = `
-"refilterable: a custom formatter (foo) produced a non-string value. 
-            Make sure your formatter always returns a string"
+"refilterable: a custom formatter (foo) produced a non-string value.
+            Make sure your formatter always returns a string or undefined"
 `;
 
 exports[`useFilter should not allow to initialize filters with plain objects 1`] = `
-"refilterable: you called useFilter and passed an invalid filter object. 
-      Instead of constructing the configuration object on your own, 
+"refilterable: you called useFilter and passed an invalid filter object.
+      Instead of constructing the configuration object on your own,
       use createFilter() or composeFilters()."
 `;
 
 exports[`useFilter should not allow to initialize filters with plain objects 2`] = `
-"refilterable: you called useFilter and passed an invalid filter object. 
-      Instead of constructing the configuration object on your own, 
+"refilterable: you called useFilter and passed an invalid filter object.
+      Instead of constructing the configuration object on your own,
       use createFilter() or composeFilters()."
 `;
 
