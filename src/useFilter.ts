@@ -21,7 +21,7 @@ export default function useFilter<T = undefined>(
   // bail out if filter is empty
   invariant(
     filter,
-    `re-fitler: you called useFilter() without a filter.`
+    `refilterable: you called useFilter() without a filter.`
   );
 
   // pull the context
