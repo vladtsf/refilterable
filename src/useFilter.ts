@@ -74,7 +74,7 @@ export default function useFilter<T = undefined>(
         `refilterable: you attempted to register conflicting configurations for the "${filter.paramName}" filter`
       );
 
-      filterRegistry.addFilter(filter);
+      filterRegistry.addFilterUse(filter);
 
       // 2) subscribe to changes in location
       unsubscribers[filter.paramName] = locationObserver.watch(filter.paramName, () => (
@@ -86,7 +86,7 @@ export default function useFilter<T = undefined>(
       // unsusbscribe and remove filter from the registry
       filters.forEach((filter) => {
         unsubscribers[filter.paramName](filter.paramName)
-        filterRegistry.removeFilter(filter)
+        filterRegistry.deleteFilterUse(filter)
       });
     }
   }, paramNames);

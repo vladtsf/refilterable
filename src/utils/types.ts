@@ -56,8 +56,8 @@ export interface LocationObserver {
 export interface FilterRegistry {
   getAllFilters(): FilterObject<any>[];
   isColliding(filter: FilterObject<any>): boolean;
-  addFilter(filter: FilterObject<any>): void;
-  removeFilter(filter: FilterObject<any>): void;
+  addFilterUse(filter: FilterObject<any>): void;
+  deleteFilterUse(filter: FilterObject<any>): void;
 }
 
 export type FiltersContextValue = {
