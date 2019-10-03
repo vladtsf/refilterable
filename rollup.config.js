@@ -33,7 +33,7 @@ export default [
 				'history': 'History',
 				'url-search-params': 'URLSearchParams',
 			},
-			name: 'reFilter',
+			name: 'refilterable',
 			file: pkg.browser,
 			format: 'umd'
 		},
