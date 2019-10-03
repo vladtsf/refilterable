@@ -43,7 +43,7 @@
     "coverage": "jest --coverage",
     "examples": "npm run build && parcel examples/index.html"
   },
-  "": [
+  "files": [
     "dist"
   ]
 }
