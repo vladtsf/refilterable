@@ -10,7 +10,7 @@ export interface FilterObject<T = undefined> {
   format(value: T): string;
   validate(input: string, parse: ParseFunction<T>): boolean;
   defaultValue?: string | undefined;
-  resetValue?: string | undefined;
+  resetValue?: T | undefined;
 }
 
 export interface FilterConfig<T = string> {
@@ -18,7 +18,7 @@ export interface FilterConfig<T = string> {
   format?(value: T): string;
   validate?(input: string, parse: ParseFunction<T>): boolean;
   defaultValue?: string | undefined;
-  resetValue?: string | undefined;
+  resetValue?: T | undefined;
 }
 
 export interface FilterComposition {
