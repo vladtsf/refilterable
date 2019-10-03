@@ -2,7 +2,7 @@ import { FilterComposition, FilterObject } from './types';
 import { History } from 'history';
 import { FILTER_OBJECT_MARKER, FILTER_COMPOSITION_MARKER } from './constants';
 
-export type ParseFunction<T> = (input: string) => T | undefined;
+export type ParseFunction<T> = (input: string | undefined) => T | undefined;
 
 export interface FilterObject<T = undefined> {
   paramName: string;
