@@ -1,5 +1,5 @@
 import invariant from 'invariant';
-import { FilterConfig, FilterObject } from './utils/types';
+import { FilterConfig, FilterObject, ParseFunction } from './utils/types';
 import { FILTER_OBJECT_MARKER, FILTER_HAS_OVEWRITES } from './utils/constants';
 
 
@@ -21,7 +21,8 @@ export default function createFilter<T>(paramName: string, config?: FilterConfig
 
   // by default, resetValue is the same as defaultValue
   if (config && !config.hasOwnProperty("resetValue")) {
-    config.resetValue = config.defaultValue;
+    const parse: ParseFunction<T> = typeof config.parse === "function" ? config.parse : defaultConfig.parse;
+    config.resetValue = typeof config.defaultValue !== "undefined" ? parse(config.defaultValue) : undefined;
   }
 
   return {

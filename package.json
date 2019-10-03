@@ -1,6 +1,6 @@
 {
   "name": "refilterable",
-  "version": "1.0.0-alpha.6",
+  "version": "1.0.0-alpha.7",
   "main": "dist/refilterable.cjs.js",
   "module": "dist/refilterable.esm.js",
   "browser": "dist/refilterable.umd.js",
@@ -10,7 +10,7 @@
   },
   "peerDependencies": {
     "history": "^4.7.2",
-    "react": "^16.8.6"
+    "react": "^16.8.0"
   },
   "devDependencies": {
     "@testing-library/react": "^8.0.1",
@@ -43,7 +43,7 @@
     "coverage": "jest --coverage",
     "examples": "npm run build && parcel examples/index.html"
   },
-  "": [
+  "files": [
     "dist"
   ]
 }
