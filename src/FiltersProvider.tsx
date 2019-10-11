@@ -27,6 +27,9 @@ const FiltersProvider: FunctionComponent<Props> = ({ history, children }: Props)
       locationObserver.current.notify(location.search);
     });
 
+    // fire once, to capture current location
+    locationObserver.current.notify(history.location.search);
+
     // unsubscribe when the component unmounts
     return unlisten;
   }, []);
