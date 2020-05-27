@@ -1,4 +1,3 @@
-import { FilterComposition, FilterObject } from './types';
 import { History } from 'history';
 import { FILTER_OBJECT_MARKER, FILTER_COMPOSITION_MARKER } from './constants';
 
