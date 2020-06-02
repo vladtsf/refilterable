@@ -8,10 +8,9 @@ import createLocationObserver from './utils/createLocationObserver';
  
 type Props = {
   history: History;
-  children: JSX.Element[];
 }
 
-const FiltersProvider: FunctionComponent<Props> = ({ history, children }: Props) => {
+const FiltersProvider: FunctionComponent<Props> = ({ history, children }) => {
   invariant(
     history,
     `refilterable: FiltersProvider was not passed a history instance. 
